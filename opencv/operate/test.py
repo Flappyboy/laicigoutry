@@ -1,0 +1,32 @@
+import cv2
+import numpy as np
+from matplotlib import pyplot as plt
+img1=cv2.imread('../../images/dog.jpg')
+img2=cv2.imread('../../images/killdog.jpg')
+img1=img1[:200,:300]
+img2=img2[:200,:300]
+img1=cv2.cvtColor(img1,cv2.COLOR_BGR2RGB)
+img2=cv2.cvtColor(img2,cv2.COLOR_BGR2RGB)
+img2gray=cv2.cvtColor(img2,cv2.COLOR_RGB2GRAY)
+ret, =cv2.threshold(img2gray,202,255,cv2.THRESH_BINARY)
+mask_inv=cv2.bitwise_not(mask)
+img1_bg=cv2.bitwise_and(img1,img1,mask=mask)
+img2_fg=cv2.bitwise_and(img2,img2,mask=mask_inv)
+dst=cv2.add(img1_bg,img2_fg)
+plt.subplot(2,4,1)
+plt.imshow(img1,cmap='gray')
+plt.subplot(2,4,2)
+plt.imshow(img2,cmap='gray')
+plt.subplot(2,4,3)
+plt.imshow(mask,cmap='gray')
+plt.subplot(2,4,4)
+plt.imshow(mask_inv,cmap='gray')
+plt.subplot(2,4,5)
+plt.imshow(img1_bg,cmap='gray')
+plt.subplot(2,4,6)
+plt.imshow(img2_fg,cmap='gray')
+plt.subplot(2,4,7)
+plt.imshow(dst,cmap='gray')
+plt.subplot(2,4,8)
+plt.imshow(img2gray,cmap='gray')
+plt.show()
